@@ -1,8 +1,7 @@
 {
   "main": "index.js",
   "scripts": {
-    "start": "index.js",
-    "test": "index.js"
+    "start": "index.js"
   },
 
   "dependencies": {
