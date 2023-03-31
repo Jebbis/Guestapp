@@ -5,7 +5,7 @@ const path = require('path');
 const app = express();
 const PORT = 3001;
 
-// Routes for each page to push when opened
+// Routes for each page to show when opened
 app.get('/', (req, res) => {
   res.send(`
     <html>
@@ -151,30 +151,36 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/newmessage', (req, res) => {
   var data = require(__dirname + "/data.json");
+
+  // Checks that all fields are filled with some text
   if (!req.body.username || !req.body.country || !req.body.message) {
     return res.status(400).send('All fields are required');
   }
 
+  //
   data.push({
     username: req.body.username,
     country: req.body.country,
     message: req.body.message,
   });
 
-  var jsonStr = JSON.stringify(data);
+  var text = JSON.stringify(data);
 
-  fs.writeFile(__dirname + "/data.json", jsonStr, err => {
+  //Write tot the json file new entrys
+  fs.writeFile(__dirname + "/data.json", text, err => {
     if (err) throw err;
     console.log("It's saved!");
     console.log(data);
   });
 
   console.log('Message added successfully');
+
+  //redirect to the guestbook page after new message
   res.redirect('/guestbook');
 
 });
 
-// Open server on the port 
+// Open server on the port
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
